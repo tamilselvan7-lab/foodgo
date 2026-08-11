@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FoodGo — Restaurant Dashboard</title>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #f6f6f4;
+    margin: 0;
+    padding: 24px;
+    color: #1a1a1a;
+  }
+  h1 { font-size: 20px; margin-bottom: 4px; }
+  .sub { color: #666; margin-bottom: 20px; font-size: 14px; }
+  select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    min-width: 260px;
+  }
+  .order-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border-left: 4px solid #e07a3f;
+  }
+  .order-card.new {
+    animation: pop 0.6s ease;
+    border-left-color: #2ea043;
+  }
+  @keyframes pop {
+    0% { transform: scale(0.98); background: #eafbee; }
+    100% { transform: scale(1); background: white; }
+  }
+  .order-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .order-id { font-weight: 600; font-size: 14px; }
+  .status {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #fff3e6;
+    color: #b35c00;
+    text-transform: capitalize;
+  }
+  .items { font-size: 14px; color: #333; margin-bottom: 6px; }
+  .total { font-weight: 600; font-size: 14px; }
+  .empty { color: #888; font-size: 14px; padding: 20px 0; }
+  .beep-toggle {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+    display: block;
+  }
+</style>
+</head>
+<body>
+ 
+<h1>Live Orders</h1>
+<div class="sub">New orders appear here automatically — no refresh needed.</div>
+ 
+<select id="restaurantSelect">
+  <option value="">Select your restaurant…</option>
+</select>
+ 
+<label class="beep-toggle">
+  <input type="checkbox" id="soundToggle" checked /> Play sound on new order
+</label>
+ 
+<div id="orders">
+  <div class="empty">Select a restaurant above to see its live orders.</div>
+</div>
+ 
+<audio id="beep" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+ 
+<script>
+  const supabase = window.supabase.createClient(
+    window.FOODGO_CONFIG.SUPABASE_URL,
+    window.FOODGO_CONFIG.SUPABASE_ANON_KEY
+  );
+ 
+  const restaurantSelect = document.getElementById("restaurantSelect");
+  const ordersDiv = document.getElementById("orders");
+  const beep = document.getElementById("beep");
+  const soundToggle = document.getElementById("soundToggle");
+ 
+  let currentRestaurantId = null;
+  let channel = null;
+ 
+  async function loadRestaurants() {
+    const { data, error } = await supabase.from("restaurants").select("id, name").order("name");
+    if (error) return console.error(error);
+    data.forEach((r) => {
+      const opt = document.createElement("option");
+      opt.value = r.id;
+      opt.textContent = r.name;
+      restaurantSelect.appendChild(opt);
+    });
+  }
+ 
+  function renderOrder(order, isNew = false) {
+    const card = document.createElement("div");
+    card.className = "order-card" + (isNew ? " new" : "");
+    card.id = "order-" + order.id;
+    card.innerHTML = `
+      <div class="order-top">
+        <span class="order-id">Order #${order.id.slice(0, 8)}</span>
+        <span class="status">${order.status.replace("_", " ")}</span>
+      </div>
+      <div class="items">${(order.order_items || [])
+        .map((i) => `${i.quantity}× ${i.name}`)
+        .join(", ") || "Loading items…"}</div>
+      <div class="total">₹${order.total_amount}</div>
+    `;
+    return card;
+  }
+ 
+  async function loadOrders(restaurantId) {
+    ordersDiv.innerHTML = "";
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*, order_items(*)")
+      .eq("restaurant_id", restaurantId)
+      .order("created_at", { ascending: false })
+      .limit(30);
+ 
+    if (error) {
+      ordersDiv.innerHTML = `<div class="empty">Couldn't load orders: ${error.message}</div>`;
+      return;
+    }
+    if (!data.length) {
+      ordersDiv.innerHTML = `<div class="empty">No orders yet.</div>`;
+      return;
+    }
+    data.forEach((order) => ordersDiv.appendChild(renderOrder(order)));
+  }
+ 
+  function subscribeToOrders(restaurantId) {
+    if (channel) supabase.removeChannel(channel);
+ 
+    channel = supabase
+      .channel("orders-" + restaurantId)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "orders",
+          filter: `restaurant_id=eq.${restaurantId}`,
+        },
+        async (payload) => {
+          const { data: fullOrder } = await supabase
+            .from("orders")
+            .select("*, order_items(*)")
+            .eq("id", payload.new.id)
+            .single();
+ 
+          const card = renderOrder(fullOrder || payload.new, true);
+          ordersDiv.prepend(card);
+ 
+          if (soundToggle.checked) beep.play().catch(() => {});
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "orders",
+          filter: `restaurant_id=eq.${restaurantId}`,
+        },
+        (payload) => {
+          const existing = document.getElementById("order-" + payload.new.id);
+          if (existing) {
+            const statusEl = existing.querySelector(".status");
+            if (statusEl) statusEl.textContent = payload.new.status.replace("_", " ");
+          }
+        }
+      )
+      .subscribe();
+  }
+ 
+  restaurantSelect.addEventListener("change", (e) => {
+    currentRestaurantId = e.target.value;
+    if (!currentRestaurantId) {
+      ordersDiv.innerHTML = `<div class="empty">Select a restaurant above to see its live orders.</div>`;
+      if (channel) supabase.removeChannel(channel);
+      return;
+    }
+    loadOrders(currentRestaurantId);
+    subscribeToOrders(currentRestaurantId);
+  });
+ 
+  loadRestaurants();
+</script>
+ 
+</body>
+</html>
+ 
