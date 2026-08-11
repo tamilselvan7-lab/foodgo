@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in — FoodGo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="topbar"></div>
+
+  <div class="auth-wrap">
+    <h2 id="formTitle">Sign in</h2>
+    <p style="color:var(--color-text-muted); margin-bottom:24px;">to continue ordering on FoodGo</p>
+    <div class="field">
+      <label class="field-label">Full name (sign up only)</label>
+      <input class="input" id="nameField" placeholder="Jane Doe" />
+    </div>
+    <div class="field">
+      <label class="field-label">Email</label>
+      <input class="input" id="emailField" type="email" placeholder="you@example.com" />
+    </div>
+    <div class="field">
+      <label class="field-label">Password</label>
+      <input class="input" id="passwordField" type="password" placeholder="••••••••" />
+    </div>
+    <button class="btn btn-primary btn-block" id="submitBtn" style="padding:13px;">Sign in</button>
+    <p class="error-msg" id="authError" style="display:none;"></p>
+    <p class="auth-toggle">
+      <span id="toggleText">Don't have an account?</span>
+      <a href="#" id="toggleLink">Sign up</a>
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

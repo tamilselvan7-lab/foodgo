@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Your Order — FoodGo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <a href="index.html" class="logo">FoodGo</a>
+    <h3 id="orderTitle">Track Your Order</h3>
+    <div class="actions">
+      <a href="index.html" class="icon-btn" title="Home">&#127968;</a>
+      <a href="checkout.html" class="icon-btn cart-badge" title="Cart">&#128722;<span class="count" data-cart-count style="display:none">0</span></a>
+    </div>
+  </div>
+
+  <div class="track-wrap">
+    <div id="map"></div>
+    <div class="track-panel">
+      <div class="eta-card">
+        <div class="top">
+          <div>
+            <div class="eta-num" id="etaMinutes">--</div>
+            <p style="margin:0;color:var(--color-text-muted);">Estimated arrival time</p>
+          </div>
+          <span style="font-size:32px;">🛵</span>
+        </div>
+        <div class="progress-bar"><div class="fill" id="progressFill" style="width:20%"></div></div>
+        <div class="driver-info">
+          <img id="driverPhoto" src="https://api.dicebear.com/7.x/avataaars/svg?seed=driver" alt="" />
+          <div>
+            <h3 id="driverName" style="font-size:20px;">Waiting for a driver…</h3>
+            <div class="meta"><span id="driverRating"></span><span id="driverVehicle"></span></div>
+          </div>
+        </div>
+        <div class="contact-btns">
+          <button class="btn">📞 Call driver</button>
+          <button class="btn">💬 Chat</button>
+        </div>
+      </div>
+
+      <div class="timeline-card">
+        <h3>Order Progress</h3>
+        <div class="timeline" id="timeline">
+          <div class="line"></div><div class="line-fill" id="lineFill" style="height:10%"></div>
+        </div>
+      </div>
+
+      <div class="order-summary-card">
+        <div class="head">
+          <h3>Order Summary</h3>
+          <span class="item-count-chip" id="itemCountChip">0 Items</span>
+        </div>
+        <div class="hr"></div>
+        <div>
+          <h4 id="orderRestaurantName"></h4>
+          <p style="color:var(--color-text-muted); font-size:14px;" id="orderRestaurantCuisine"></p>
+        </div>
+        <div id="orderItemsList" style="margin-top:8px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/track.js"></script>
+  <script>
+    // Google Maps is loaded last, after FOODGO_CONFIG exists, so we can inject the key.
+    const gmScript = document.createElement("script");
+    gmScript.src = `https://maps.googleapis.com/maps/api/js?key=${window.FOODGO_CONFIG.GOOGLE_MAPS_API_KEY}&callback=initMap`;
+    gmScript.async = true;
+    document.head.appendChild(gmScript);
+  </script>
+</body>
+</html>

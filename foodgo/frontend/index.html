@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FoodGo — Delicious food, delivered to your door</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="topbar"></div>
+
+  <main class="container" style="padding-top:48px; padding-bottom:48px; display:flex; flex-direction:column; gap:48px;">
+    <section class="hero">
+      <img class="bg" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200" alt="" />
+      <div class="gradient"></div>
+      <div class="content">
+        <h1>Delicious food, delivered to your door.</h1>
+        <p class="sub">Experience the freshest ingredients and culinary perfection from your favorite local restaurants, delivered blazing fast.</p>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="document.getElementById('restaurants').scrollIntoView({behavior:'smooth'})">Order Now</button>
+          <a class="btn btn-outline" href="#restaurants">Explore</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="search">
+      <h3 style="margin-bottom:16px;">What are you craving?</h3>
+      <div class="categories" id="categoryList"></div>
+    </section>
+
+    <section>
+      <div class="offers">
+        <div class="offer-card offer-1"><span class="icon">&#127991;</span><div><h4>50% OFF</h4><p>On select restaurants</p></div></div>
+        <div class="offer-card offer-2"><span class="icon">&#128666;</span><div><h4>Free delivery</h4><p>For orders over ₹500</p></div></div>
+        <div class="offer-card offer-3"><span class="icon">&#10024;</span><div><h4>20% OFF first order</h4><p>Use code WELCOME</p></div></div>
+      </div>
+    </section>
+
+    <section id="restaurants">
+      <div class="section-head">
+        <h3 id="listTitle">Popular near you</h3>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <input id="searchInput" class="input" style="width:220px;" placeholder="Search restaurants or dishes" />
+          <a class="view-all" href="#" onclick="clearFilters();return false;">View All</a>
+        </div>
+      </div>
+      <div class="restaurant-grid" id="restaurantGrid">
+        <p>Loading restaurants…</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <h4>FoodGo</h4>
+      <p>© 2026 FoodGo Delivery. All rights reserved.</p>
+    </div>
+    <div class="links">
+      <a href="#">Help Center</a>
+      <a href="#">Partner with us</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

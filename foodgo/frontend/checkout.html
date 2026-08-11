@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — FoodGo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="topbar"></div>
+
+  <div class="container" style="padding-top:32px;">
+    <h1>Checkout</h1>
+    <p style="color:var(--color-text-muted); margin-top:8px;">Complete your order details below.</p>
+  </div>
+
+  <div class="checkout-grid">
+    <div>
+      <div class="card">
+        <div class="head">
+          <h3>📍 Delivery Address</h3>
+          <a class="change-link" href="#" id="changeAddrLink">CHANGE</a>
+        </div>
+        <div class="addr-row" id="addrDisplay">
+          <div>
+            <h4>Select an address</h4>
+            <p class="addr-text">Please add or choose a delivery address.</p>
+          </div>
+        </div>
+        <div id="addrForm" style="display:none; margin-top:16px;">
+          <div class="field">
+            <label class="field-label">Label</label>
+            <input class="input" id="addrLabel" placeholder="Home / Work" />
+          </div>
+          <div class="field">
+            <label class="field-label">Full address</label>
+            <input class="input" id="addrLine" placeholder="123 Example Street, Apt 4B" />
+          </div>
+          <div class="field">
+            <label class="field-label">City, State, ZIP</label>
+            <input class="input" id="addrCity" placeholder="New York, NY 10001" />
+          </div>
+          <button class="btn btn-primary" id="saveAddrBtn" type="button">Save address</button>
+        </div>
+        <hr class="hr" />
+        <label class="field-label">Delivery Instructions</label>
+        <input class="input" id="instructions" placeholder="Leave at door" />
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:16px;">💳 Payment Method</h3>
+        <div class="pay-option selected" data-method="upi"><div class="left"><span>📱</span><div><h4>UPI</h4><p style="margin:0;color:var(--color-text-muted);font-size:14px;">Google Pay, PhonePe, Paytm</p></div></div><div class="radio"></div></div>
+        <div class="pay-option" data-method="card"><div class="left"><span>💳</span><div><h4>Credit / Debit Card</h4><p style="margin:0;color:var(--color-text-muted);font-size:14px;">Visa, MasterCard, Amex</p></div></div><div class="radio"></div></div>
+        <div class="pay-option" data-method="netbanking"><div class="left"><span>🏦</span><div><h4>Net Banking</h4><p style="margin:0;color:var(--color-text-muted);font-size:14px;">All major banks supported</p></div></div><div class="radio"></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h3 style="margin-bottom:16px;">Order Summary</h3>
+        <div id="summaryItems"></div>
+        <div class="hr"></div>
+        <div class="bill-row"><span>Item Total</span><span class="val" id="billItemTotal">₹0</span></div>
+        <div class="bill-row"><span>Delivery Fee</span><span class="val" id="billDelivery">₹30</span></div>
+        <div class="bill-row"><span>Platform Fee</span><span class="val" id="billPlatform">₹10</span></div>
+        <div class="bill-row"><span>Taxes & Charges</span><span class="val" id="billTax">₹0</span></div>
+        <div class="hr"></div>
+        <div class="bill-total"><span>To Pay</span><span class="amt" id="billTotal">₹0</span></div>
+        <button class="btn btn-primary btn-lg btn-block" id="payBtn" style="margin-top:16px;">Pay <span id="payAmountLabel"></span></button>
+        <p class="secure-note">🔒 Your payment is secured by industry standards.</p>
+        <p class="error-msg" id="checkoutError" style="display:none;"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

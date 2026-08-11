@@ -1,0 +1,16 @@
+{
+  "name": "foodgo-backend",
+  "version": "1.0.0",
+  "description": "FoodGo single-file Express + Supabase + Razorpay backend",
+  "main": "backend.js",
+  "scripts": {
+    "start": "node backend.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "razorpay": "^2.9.4"
+  }
+}

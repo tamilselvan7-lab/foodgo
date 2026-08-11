@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant — FoodGo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="topbar"></div>
+
+  <div class="restaurant-header" id="restaurantHeader">
+    <img id="coverImg" src="" alt="" />
+  </div>
+  <div class="container" style="position:relative;">
+    <div class="floating-card" id="floatingCard">
+      <h1 id="rName">Loading…</h1>
+      <p class="cuisine" id="rCuisine"></p>
+      <div class="meta">
+        <span class="rating" id="rRating"></span>
+        <span class="divider"></span>
+        <span id="rEta"></span>
+        <span class="divider"></span>
+        <span id="rCost"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-layout">
+    <div class="menu-content">
+      <div class="category-tabs" id="categoryTabs"></div>
+      <div id="menuList"><p>Loading menu…</p></div>
+    </div>
+
+    <aside class="cart-sidebar">
+      <div class="cart-box">
+        <div class="body">
+          <h3 id="cartTitle">Your Cart</h3>
+          <div id="cartLines" style="padding-top:16px;"></div>
+          <div class="cart-subtotal" id="cartSubtotalRow" style="display:none;">
+            <span>Subtotal</span>
+            <span class="amt" id="cartSubtotal">₹0</span>
+          </div>
+        </div>
+        <a href="checkout.html" class="checkout-btn" id="viewCartBtn" style="display:none; text-align:center;">VIEW CART →</a>
+      </div>
+    </aside>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/restaurant.js"></script>
+</body>
+</html>
