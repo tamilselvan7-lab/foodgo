@@ -5,7 +5,7 @@
 // ==========================================================================
 window.FOODGO_CONFIG = {
   // Your backend API base URL (the Express server started from backend.js)
-  API_BASE_URL: "https://foodgo-1v2v.onrender.com",
+  API_BASE_URL: "https://foodgo-1v2v.onrender.com/api",
 
   // Supabase project URL + anon (public) key — from Supabase dashboard > Settings > API
   SUPABASE_URL: "https://mxnggylszidpfvxjcjqn.supabase.co",
