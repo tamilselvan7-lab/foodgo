@@ -12,7 +12,7 @@ window.FOODGO_CONFIG = {
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14bmdneWxzemlkcGZ2eGpjanFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNTQ5NDgsImV4cCI6MjEwMTkzMDk0OH0.8GqZzvscNRU-_R6fQ5fHr3b-52NnZIp1a08MAlGJL5I",
 
   // Razorpay publishable key id (starts with rzp_) — safe for the browser
-  RAZORPAY_KEY_ID: "YOUR_RAZORPAY_KEY_ID",
+  RAZORPAY_KEY_ID: "rzp_test_TOO6ejruo6BgRx",
 
   // Google Maps JavaScript API key, restricted to your domain in Google Cloud Console
   GOOGLE_MAPS_API_KEY: "YOUR_GOOGLE_MAPS_API_KEY",
