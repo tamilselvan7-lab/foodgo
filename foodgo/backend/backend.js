@@ -13,7 +13,7 @@
  *   SUPABASE_SERVICE_ROLE_KEY   (server-only — NEVER expose to the frontend)
  *   RAZORPAY_KEY_ID
  *   RAZORPAY_KEY_SECRET         (server-only — NEVER expose to the frontend)
- *   FRONTEND_ORIGIN             (CORS allow-list, e.g. http://localhost:5500)
+ *   FRONTEND_ORIGIN             (CORS allow-list, e.g. https://foodgo-hocu.vercel.app/)
  *
  * -----------------------------------------------------------------------------
  * DATABASE SCHEMA (run this once in the Supabase SQL editor)
